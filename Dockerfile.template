@@ -1,0 +1,17 @@
+FROM rust:%%RUST_VSN%%-slim as rust
+
+FROM elixir:%%ELIXIR_VSN%%
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+    ca-certificates \
+    gcc libc6-dev make \
+    wget curl
+ENV RUSTUP_HOME=/usr/local/rustup \
+    CARGO_HOME=/usr/local/cargo \
+    PATH=/usr/local/cargo/bin:$PATH
+COPY --from=rust /usr/local/cargo /usr/local/cargo
+COPY --from=rust /usr/local/rustup /usr/local/rustup
+RUN rm -Rf _build && \
+    mix local.hex --force && \
+    mix local.rebar --force
