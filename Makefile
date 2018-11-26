@@ -1,7 +1,7 @@
 .PHONY: all build publish
 
-RUST_VSN = 1.29.2
-ELIXIR_VSN = 1.7.4
+RUST_VSN = 1.30.1
+ELIXIR_VSN = 1.6.6
 
 all: build publish
 
